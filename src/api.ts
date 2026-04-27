@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "/api",
 });
 
 export default api;
@@ -45,6 +45,7 @@ export interface MatchSubmitRequest {
   thirdPlacePlayerId: number;
   bonusPoints: number | null;
   absentPlayerIds: number[];
+  isLastGameOfWeek: boolean;
 }
 
 export const getPlayers = () =>
@@ -79,17 +80,6 @@ export interface MatchTopThree {
   firstPlace: string;
   secondPlace: string;
   thirdPlace: string;
-}
-
-export interface MatchSubmitRequest {
-  matchNumber: number;
-  matchDate: string;
-  firstPlacePlayerId: number;
-  secondPlacePlayerId: number;
-  thirdPlacePlayerId: number;
-  bonusPoints: number | null;
-  absentPlayerIds: number[];
-  isLastGameOfWeek: boolean;
 }
 
 export const getMatchTopThree = (matchNumber: number) =>

@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://player-leaderboard-backend.onrender.com/api/:path*"
+    }
+  ]
+}
