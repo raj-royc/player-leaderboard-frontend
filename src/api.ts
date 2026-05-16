@@ -16,6 +16,8 @@ export interface OverallEntry {
   playerName: string;
   totalPoints: number;
   ineligible: boolean;
+  matchesAttended: number;
+  isNormalised: boolean;
 }
 export interface WeeklyEntry {
   rank: number;

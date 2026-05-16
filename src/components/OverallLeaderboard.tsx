@@ -89,35 +89,37 @@ export default function OverallLeaderboard() {
               >
                 {entry.rank}
               </div>
-              <p
-                style={{
-                  flex: 1,
-                  fontSize: 15,
-                  fontWeight: entry.rank <= 3 ? 500 : 400,
-                  color: entry.ineligible ? "#C0392B" : "var(--gray-800)",
-                }}
-              >
-                {entry.playerName}
+
+              <div style={{ flex: 1 }}>
+                <p
+                  style={{
+                    fontSize: 15,
+                    fontWeight: entry.rank <= 3 ? 500 : 400,
+                    color: entry.ineligible ? "#C0392B" : "var(--gray-800)",
+                    textDecoration: entry.ineligible ? "line-through" : "none",
+                  }}
+                >
+                  {entry.playerName}
+                </p>
                 {entry.ineligible && (
-                  <span
-                    style={{
-                      fontSize: 11,
-                      marginLeft: 6,
-                      color: "#E74C3C",
-                      background: "#FDEAEA",
-                      padding: "2px 6px",
-                      borderRadius: 6,
-                    }}
-                  >
+                  <span style={{ fontSize: 11, color: "#E74C3C" }}>
                     ineligible
                   </span>
                 )}
-              </p>
+                {entry.isNormalised && !entry.ineligible && (
+                  <span style={{ fontSize: 11, color: "var(--blue-400)" }}>
+                    normalised · {entry.matchesAttended} played
+                  </span>
+                )}
+              </div>
+
               <p
                 style={{
                   fontSize: 18,
                   fontWeight: 500,
-                  color: "var(--blue-600)",
+                  color: entry.ineligible
+                    ? "var(--gray-300)"
+                    : "var(--blue-600)",
                 }}
               >
                 {entry.totalPoints}
