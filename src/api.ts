@@ -88,3 +88,37 @@ export const getMatchTopThree = (matchNumber: number) =>
   api
     .get<MatchTopThree>(`/matches/${matchNumber}/topthree`)
     .then((r) => r.data);
+
+export interface CumulativeData {
+  playerId: number;
+  playerName: string;
+  matches: { matchNumber: number; points: number; cumulative: number }[];
+}
+
+export interface FormData {
+  playerId: number;
+  playerName: string;
+  recentMatches: {
+    matchNumber: number;
+    position: number | null;
+    points: number | null;
+    result: string;
+  }[];
+}
+
+export interface PodiumRateData {
+  playerId: number;
+  playerName: string;
+  attended: number;
+  podiumFinishes: number;
+  podiumRate: number;
+}
+
+export const getCumulativeData = () =>
+  api.get<CumulativeData[]>("/analytics/cumulative").then((r) => r.data);
+
+export const getPlayerForm = (playerId: number) =>
+  api.get<FormData>(`/analytics/form/${playerId}`).then((r) => r.data);
+
+export const getPodiumRate = () =>
+  api.get<PodiumRateData[]>("/analytics/podium-rate").then((r) => r.data);
