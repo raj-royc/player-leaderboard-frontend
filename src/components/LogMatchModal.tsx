@@ -20,12 +20,24 @@ export default function LogMatchModal({ onClose, onSuccess }: Props) {
   const [isLastGame, setIsLastGame] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [pinVerified, setPinVerified] = useState(false);
+  const [pinInput, setPinInput] = useState("");
+  const [pinError, setPinError] = useState("");
 
   useEffect(() => {
     getPlayers().then(setPlayers);
   }, []);
 
   const podiumIds = [first, second, third].filter(Boolean);
+
+  const handlePinSubmit = () => {
+    if (pinInput === "1298") {
+      setPinVerified(true);
+    } else {
+      setPinError("Incorrect PIN. Try again.");
+      setPinInput("");
+    }
+  };
 
   const handleAbsentToggle = (id: string) => {
     setAbsent((prev) =>
@@ -142,6 +154,116 @@ export default function LogMatchModal({ onClose, onSuccess }: Props) {
     </div>
   );
 
+  // ── PIN SCREEN ──────────────────────────────────────────────
+  if (!pinVerified) {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(4,44,83,0.4)",
+          display: "flex",
+          alignItems: "flex-end",
+          zIndex: 100,
+        }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
+        }}
+      >
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "24px 24px 0 0",
+            width: "100%",
+            maxWidth: 480,
+            margin: "0 auto",
+            padding: "24px 20px 40px",
+          }}
+        >
+          <div
+            style={{
+              width: 36,
+              height: 4,
+              background: "var(--gray-200)",
+              borderRadius: 2,
+              margin: "0 auto 24px",
+            }}
+          />
+          <p
+            style={{
+              fontSize: 20,
+              fontWeight: 500,
+              color: "var(--gray-800)",
+              marginBottom: 6,
+            }}
+          >
+            Enter PIN
+          </p>
+          <p
+            style={{
+              fontSize: 13,
+              color: "var(--gray-400)",
+              marginBottom: 24,
+            }}
+          >
+            Only admins can log a match
+          </p>
+          <input
+            type="password"
+            value={pinInput}
+            onChange={(e) => setPinInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handlePinSubmit();
+            }}
+            placeholder="····"
+            style={{
+              width: "100%",
+              padding: "14px",
+              borderRadius: 12,
+              fontSize: 22,
+              border: "0.5px solid var(--gray-200)",
+              outline: "none",
+              textAlign: "center",
+              letterSpacing: "8px",
+              marginBottom: 12,
+            }}
+          />
+          {pinError && (
+            <p
+              style={{
+                fontSize: 13,
+                color: "#E74C3C",
+                background: "#FDEAEA",
+                padding: "10px 14px",
+                borderRadius: 10,
+                marginBottom: 12,
+              }}
+            >
+              {pinError}
+            </p>
+          )}
+          <button
+            onClick={handlePinSubmit}
+            style={{
+              width: "100%",
+              padding: "16px",
+              borderRadius: 14,
+              border: "none",
+              background: "linear-gradient(135deg, #185FA5, #378ADD)",
+              color: "#fff",
+              fontSize: 16,
+              fontWeight: 500,
+              cursor: "pointer",
+            }}
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ── MAIN FORM ───────────────────────────────────────────────
   return (
     <div
       style={{
